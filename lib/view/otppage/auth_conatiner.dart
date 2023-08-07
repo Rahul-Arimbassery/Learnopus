@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learnopus/view_models/firebase/signin_view_model.dart';
 import 'package:learnopus/view_models/firebase/signup_view_model.dart';
 
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
-
-class AuthContainer extends StatelessWidget {
+class AuthContainer extends StatefulWidget {
   final String title;
   final String hintText;
   final Icon prefixIcon;
@@ -17,6 +15,8 @@ class AuthContainer extends StatelessWidget {
   final bool showGoogleSignIn;
   final int currentPageIndex;
   final PageController pageController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
   const AuthContainer({
     super.key,
@@ -31,7 +31,39 @@ class AuthContainer extends StatelessWidget {
     required this.pageController,
     required this.thirdHintText,
     required this.thirdIcon,
+    required this.emailController,
+    required this.passwordController,
   });
+
+  @override
+  State<AuthContainer> createState() => _AuthContainerState();
+}
+
+class _AuthContainerState extends State<AuthContainer> {
+  bool isButtonPressed = false;
+  String? passwordError;
+  String? emailError;
+
+  String? validateEmail(String value) {
+    if (value.isEmpty) {
+      return 'Email is required';
+    } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        .hasMatch(value)) {
+      return 'Invalid email format';
+    }
+
+    return null;
+  }
+
+  String? validatePassword(String value) {
+    if (value.isEmpty) {
+      return 'Password is required';
+    } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')
+        .hasMatch(value)) {
+      return 'Invalid Password format';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +75,7 @@ class AuthContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
+              widget.title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -58,17 +90,17 @@ class AuthContainer extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
-                  controller: emailController,
+                  controller: widget.emailController,
                   decoration: InputDecoration(
-                    hintText: hintText,
-                    prefixIcon: prefixIcon,
+                    hintText: widget.hintText,
+                    prefixIcon: widget.prefixIcon,
                     border: InputBorder.none,
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
               ),
             ),
-            if (additionalHintText.isNotEmpty) ...[
+            if (widget.additionalHintText.isNotEmpty) ...[
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
@@ -78,18 +110,18 @@ class AuthContainer extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
-                    controller: passwordController,
+                    controller: widget.passwordController,
                     decoration: InputDecoration(
-                      hintText: additionalHintText,
-                      prefixIcon: additionalIcon,
+                      hintText: widget.additionalHintText,
+                      prefixIcon: widget.additionalIcon,
                       border: InputBorder.none,
                     ),
-                    obscureText: !confirmPassword,
+                    obscureText: !widget.confirmPassword,
                   ),
                 ),
               ),
             ],
-            if (thirdHintText.isNotEmpty) ...[
+            if (widget.thirdHintText.isNotEmpty) ...[
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
@@ -100,8 +132,8 @@ class AuthContainer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: thirdHintText,
-                      prefixIcon: thirdIcon,
+                      hintText: widget.thirdHintText,
+                      prefixIcon: widget.thirdIcon,
                       border: InputBorder.none,
                     ),
                     obscureText: false, // Adjust this based on your needs
@@ -109,7 +141,7 @@ class AuthContainer extends StatelessWidget {
                 ),
               ),
             ],
-            if (confirmPassword) ...[
+            if (widget.confirmPassword) ...[
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
@@ -139,22 +171,46 @@ class AuthContainer extends StatelessWidget {
                 height: 50, // Set the desired height
                 child: ElevatedButton(
                   onPressed: () {
-                    String email = emailController.text; // Get the email
-                    String password =
-                        passwordController.text; // Get the password
-                    if (currentPageIndex == 1) {
+                    setState(() {
+                      isButtonPressed = true;
+                    });
+
+                    String email = widget.emailController.text;
+                    String password = widget.passwordController.text;
+
+                    var emailError = validateEmail(email);
+                    var passwordError = validatePassword(password);
+
+                    if (widget.currentPageIndex == 1 &&
+                        emailError == null &&
+                        passwordError == null) {
                       SignupHelper.signup(context, email, password);
-                    } else if (currentPageIndex == 0) {
+                    } else if (widget.currentPageIndex == 0 &&
+                        emailError == null &&
+                        passwordError == null) {
                       SigninHelper.signin(context, email, password);
-                    } // Call SignupHelper
+                    } else {
+                      if (emailError != null) {
+                        Fluttertoast.showToast(
+                          msg: emailError,
+                          backgroundColor:
+                              const Color.fromARGB(255, 62, 128, 208),
+                        );
+                      }
+                      if (passwordError != null) {
+                        Fluttertoast.showToast(
+                          msg: passwordError,
+                          backgroundColor:
+                              const Color.fromARGB(255, 62, 128, 208),
+                        );
+                      }
+                    }
                   },
-                  child: Text(
-                    title,
-                  ), // Display title as button text
+                  child: Text(widget.title),
                 ),
               ),
             ),
-            if (showGoogleSignIn) ...[
+            if (widget.showGoogleSignIn) ...[
               const SizedBox(height: 20), // Add spacing
               Center(
                 child: TextButton(
@@ -180,12 +236,12 @@ class AuthContainer extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 // Swipe to the next page
-                if (currentPageIndex == 0) {
-                  pageController.animateToPage(1,
+                if (widget.currentPageIndex == 0) {
+                  widget.pageController.animateToPage(1,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut);
-                } else if (currentPageIndex == 1) {
-                  pageController.animateToPage(0,
+                } else if (widget.currentPageIndex == 1) {
+                  widget.pageController.animateToPage(0,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut);
                 }
@@ -193,12 +249,12 @@ class AuthContainer extends StatelessWidget {
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    if (currentPageIndex == 0) {
-                      pageController.animateToPage(1,
+                    if (widget.currentPageIndex == 0) {
+                      widget.pageController.animateToPage(1,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
-                    } else if (currentPageIndex == 1) {
-                      pageController.animateToPage(0,
+                    } else if (widget.currentPageIndex == 1) {
+                      widget.pageController.animateToPage(0,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
                     }
@@ -207,7 +263,7 @@ class AuthContainer extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: currentPageIndex == 0
+                          text: widget.currentPageIndex == 0
                               ? "Don't have an account? " // Add space after the question mark
                               : "Already have an account? ",
                           style: const TextStyle(
@@ -216,7 +272,9 @@ class AuthContainer extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: currentPageIndex == 0 ? "Sign Up" : "Sign In",
+                          text: widget.currentPageIndex == 0
+                              ? "Sign Up"
+                              : "Sign In",
                           style: const TextStyle(
                             color: Colors
                                 .blue, // Change color for the dynamic part

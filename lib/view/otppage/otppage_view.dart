@@ -12,6 +12,8 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   final PageController _pageController = PageController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   int _currentPageIndex = 0;
 
   @override
@@ -93,6 +95,8 @@ class _OtpPageState extends State<OtpPage> {
                               confirmPassword: false,
                               currentPageIndex: _currentPageIndex,
                               pageController: _pageController,
+                              emailController: emailController,
+                              passwordController: passwordController,
                             ),
                             AuthContainer(
                               title: "Sign Up",
@@ -115,6 +119,8 @@ class _OtpPageState extends State<OtpPage> {
                               confirmPassword: false,
                               currentPageIndex: _currentPageIndex,
                               pageController: _pageController,
+                              emailController: emailController,
+                              passwordController: passwordController,
                             ),
                           ],
                         ),
