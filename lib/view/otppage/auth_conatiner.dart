@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:learnopus/view_models/firebase/signin_view_model.dart';
+import 'package:learnopus/view_models/firebase/signup_view_model.dart';
+
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class AuthContainer extends StatelessWidget {
   final String title;
@@ -53,12 +58,13 @@ class AuthContainer extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     hintText: hintText,
                     prefixIcon: prefixIcon,
                     border: InputBorder.none,
                   ),
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
             ),
@@ -72,6 +78,7 @@ class AuthContainer extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: additionalHintText,
                       prefixIcon: additionalIcon,
@@ -131,7 +138,16 @@ class AuthContainer extends StatelessWidget {
                 width: double.infinity, // Make the button full width
                 height: 50, // Set the desired height
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    String email = emailController.text; // Get the email
+                    String password =
+                        passwordController.text; // Get the password
+                    if (currentPageIndex == 1) {
+                      SignupHelper.signup(context, email, password);
+                    } else if (currentPageIndex == 0) {
+                      SigninHelper.signin(context, email, password);
+                    } // Call SignupHelper
+                  },
                   child: Text(
                     title,
                   ), // Display title as button text

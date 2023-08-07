@@ -22,6 +22,8 @@ class _OtpPageState extends State<OtpPage> {
         _currentPageIndex = _pageController.page!.round();
       });
     });
+    emailController.clear();
+    passwordController.clear();
   }
 
   @override
@@ -72,7 +74,7 @@ class _OtpPageState extends State<OtpPage> {
                           children: [
                             AuthContainer(
                               title: "Sign In",
-                              hintText: "Email",
+                              hintText: "Enter Email",
                               prefixIcon: const Icon(
                                 Icons.email,
                                 size: 20,
@@ -94,17 +96,17 @@ class _OtpPageState extends State<OtpPage> {
                             ),
                             AuthContainer(
                               title: "Sign Up",
-                              hintText: "Email",
+                              hintText: "Enter Email",
                               prefixIcon: const Icon(
-                                Icons.email,
+                                Icons.person,
                                 size: 20,
                               ),
                               additionalHintText: "Enter Password",
                               additionalIcon: const Icon(
-                                Icons.lock,
+                                Icons.email,
                                 size: 20,
                               ),
-                              thirdHintText: "Confirm Password",
+                              thirdHintText: "Enter Username",
                               thirdIcon: const Icon(
                                 Icons.lock,
                                 size: 20,

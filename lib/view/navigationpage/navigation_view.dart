@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:learnopus/view/otppage/otppage_view.dart';
 import 'package:learnopus/view/splashscreen/splash_view.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -32,6 +34,18 @@ class _NavigationPageState extends State<NavigationPage> {
     });
   }
 
+  void _logout() async {
+    await FirebaseAuth.instance.signOut();
+    // Navigate to your login page
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const OtpPage(), // Replace with your login page
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,9 +54,8 @@ class _NavigationPageState extends State<NavigationPage> {
           backgroundColor: const Color.fromARGB(255, 62, 128, 208),
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 62, 128, 208),
-            //title: const Text('Top Navigation Bar Example'),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
+              preferredSize: const Size.fromHeight(25),
               child: Theme(
                 data: Theme.of(context).copyWith(
                   canvasColor: const Color.fromARGB(255, 62, 128,
@@ -54,21 +67,25 @@ class _NavigationPageState extends State<NavigationPage> {
                   elevation: 10,
                   currentIndex: _currentIndex,
                   onTap: _onTabTapped,
-                  items: const [
-                    BottomNavigationBarItem(
+                  items: [
+                    const BottomNavigationBarItem(
                       icon: Icon(Icons.home),
                       label: 'Home',
                     ),
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                       icon: Icon(Icons.search),
                       label: 'Login',
                     ),
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                       icon: Icon(Icons.favorite),
                       label: 'Selection',
                     ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
+                     BottomNavigationBarItem(
+                      icon: IconButton(
+                          onPressed: () {
+                            _logout();
+                          },
+                          icon: const Icon(Icons.logout)),
                       label: 'University',
                     ),
                   ],
