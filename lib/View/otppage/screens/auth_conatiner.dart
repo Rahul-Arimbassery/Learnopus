@@ -1,69 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:learnopus/view_models/firebase/signin_view_model.dart';
-import 'package:learnopus/view_models/firebase/signup_view_model.dart';
+import 'package:learnopus/model/firebase/googlesignin_model.dart';
+import 'package:learnopus/View/otppage/utils/navigation_utils.dart';
+import 'package:learnopus/View/otppage/utils/signin_out_utils.dart';
+import 'package:learnopus/ViewModel/auth_viewmodel.dart';
 
-class AuthContainer extends StatefulWidget {
-  final String title;
-  final String hintText;
-  final Icon prefixIcon;
-  final String additionalHintText;
-  final Icon additionalIcon;
-  final String thirdHintText;
-  final Icon thirdIcon;
-  final bool confirmPassword;
-  final bool showGoogleSignIn;
-  final int currentPageIndex;
-  final PageController pageController;
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
+class AuthContainer extends StatelessWidget {
+  final AuthContainerModel model;
 
-  const AuthContainer({
-    super.key,
-    required this.title,
-    required this.hintText,
-    required this.prefixIcon,
-    this.additionalHintText = "",
-    required this.additionalIcon,
-    this.confirmPassword = false,
-    this.showGoogleSignIn = false,
-    required this.currentPageIndex,
-    required this.pageController,
-    required this.thirdHintText,
-    required this.thirdIcon,
-    required this.emailController,
-    required this.passwordController,
-  });
-
-  @override
-  State<AuthContainer> createState() => _AuthContainerState();
-}
-
-class _AuthContainerState extends State<AuthContainer> {
-  bool isButtonPressed = false;
-  String? passwordError;
-  String? emailError;
-
-  String? validateEmail(String value) {
-    if (value.isEmpty) {
-      return 'Email is required';
-    } else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-        .hasMatch(value)) {
-      return 'Invalid email format';
-    }
-
-    return null;
-  }
-
-  String? validatePassword(String value) {
-    if (value.isEmpty) {
-      return 'Password is required';
-    } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')
-        .hasMatch(value)) {
-      return 'Invalid Password format';
-    }
-    return null;
-  }
+  const AuthContainer({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +19,7 @@ class _AuthContainerState extends State<AuthContainer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.title,
+              model.title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -90,17 +34,17 @@ class _AuthContainerState extends State<AuthContainer> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
-                  controller: widget.emailController,
+                  controller: model.emailController,
                   decoration: InputDecoration(
-                    hintText: widget.hintText,
-                    prefixIcon: widget.prefixIcon,
+                    hintText: model.hintText,
+                    prefixIcon: model.prefixIcon,
                     border: InputBorder.none,
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
               ),
             ),
-            if (widget.additionalHintText.isNotEmpty) ...[
+            if (model.additionalHintText.isNotEmpty) ...[
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
@@ -110,18 +54,18 @@ class _AuthContainerState extends State<AuthContainer> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
-                    controller: widget.passwordController,
+                    controller: model.passwordController,
                     decoration: InputDecoration(
-                      hintText: widget.additionalHintText,
-                      prefixIcon: widget.additionalIcon,
+                      hintText: model.additionalHintText,
+                      prefixIcon: model.additionalIcon,
                       border: InputBorder.none,
                     ),
-                    obscureText: !widget.confirmPassword,
+                    obscureText: !model.confirmPassword,
                   ),
                 ),
               ),
             ],
-            if (widget.thirdHintText.isNotEmpty) ...[
+            if (model.thirdHintText.isNotEmpty) ...[
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
@@ -132,8 +76,8 @@ class _AuthContainerState extends State<AuthContainer> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: widget.thirdHintText,
-                      prefixIcon: widget.thirdIcon,
+                      hintText: model.thirdHintText,
+                      prefixIcon: model.thirdIcon,
                       border: InputBorder.none,
                     ),
                     obscureText: false, // Adjust this based on your needs
@@ -141,7 +85,7 @@ class _AuthContainerState extends State<AuthContainer> {
                 ),
               ),
             ],
-            if (widget.confirmPassword) ...[
+            if (model.confirmPassword) ...[
               const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
@@ -171,51 +115,25 @@ class _AuthContainerState extends State<AuthContainer> {
                 height: 50, // Set the desired height
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      isButtonPressed = true;
-                    });
-
-                    String email = widget.emailController.text;
-                    String password = widget.passwordController.text;
-
-                    var emailError = validateEmail(email);
-                    var passwordError = validatePassword(password);
-
-                    if (widget.currentPageIndex == 1 &&
-                        emailError == null &&
-                        passwordError == null) {
-                      SignupHelper.signup(context, email, password);
-                    } else if (widget.currentPageIndex == 0 &&
-                        emailError == null &&
-                        passwordError == null) {
-                      SigninHelper.signin(context, email, password);
-                    } else {
-                      if (emailError != null) {
-                        Fluttertoast.showToast(
-                          msg: emailError,
-                          backgroundColor:
-                              const Color.fromARGB(255, 62, 128, 208),
-                        );
-                      }
-                      if (passwordError != null) {
-                        Fluttertoast.showToast(
-                          msg: passwordError,
-                          backgroundColor:
-                              const Color.fromARGB(255, 62, 128, 208),
-                        );
-                      }
-                    }
+                    String email = model.emailController.text;
+                    String password = model.passwordController.text;
+                    AuthLogic.handleAuthButtonPressed(
+                      context: context,
+                      currentPageIndex: model.currentPageIndex,
+                      email: email,
+                      password: password,
+                    );
                   },
-                  child: Text(widget.title),
+                  child: Text(model.title),
                 ),
               ),
             ),
-            if (widget.showGoogleSignIn) ...[
+            if (model.showGoogleSignIn) ...[
               const SizedBox(height: 20), // Add spacing
               Center(
                 child: TextButton(
                   onPressed: () {
-                    // Handle Sign in with Google action
+                    signinWithGoogle(context: context);
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -235,35 +153,20 @@ class _AuthContainerState extends State<AuthContainer> {
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
-                // Swipe to the next page
-                if (widget.currentPageIndex == 0) {
-                  widget.pageController.animateToPage(1,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                } else if (widget.currentPageIndex == 1) {
-                  widget.pageController.animateToPage(0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                }
+                NavigationUtils.navigateToNextPage(
+                    model.pageController, model.currentPageIndex);
               },
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    if (widget.currentPageIndex == 0) {
-                      widget.pageController.animateToPage(1,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut);
-                    } else if (widget.currentPageIndex == 1) {
-                      widget.pageController.animateToPage(0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut);
-                    }
+                    NavigationUtils.navigateToNextPage(
+                        model.pageController, model.currentPageIndex);
                   },
                   child: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: widget.currentPageIndex == 0
+                          text: model.currentPageIndex == 0
                               ? "Don't have an account? " // Add space after the question mark
                               : "Already have an account? ",
                           style: const TextStyle(
@@ -272,7 +175,7 @@ class _AuthContainerState extends State<AuthContainer> {
                           ),
                         ),
                         TextSpan(
-                          text: widget.currentPageIndex == 0
+                          text: model.currentPageIndex == 0
                               ? "Sign Up"
                               : "Sign In",
                           style: const TextStyle(

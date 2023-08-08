@@ -1,53 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:learnopus/view/otppage/otppage_view.dart';
-import 'package:learnopus/view/splashscreen/splash_view.dart';
+import 'package:learnopus/View/navigationpage/utils/navigation_utils.dart';
+import 'package:learnopus/View/splashscreen/screen/splash_view.dart';
 
-class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
-
-  @override
-  State<NavigationPage> createState() => _NavigationPageState();
-}
-
-class _NavigationPageState extends State<NavigationPage> {
-  int _currentIndex = 0;
-  final PageController _pageController = PageController(initialPage: 0);
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _onTabTapped(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.ease,
-    );
-  }
-
-  void _onPageChanged(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
-  void _logout() async {
-    await FirebaseAuth.instance.signOut();
-    // Navigate to your login page
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const OtpPage(), // Replace with your login page
-      ),
-    );
-  }
+class NavigationPage extends StatelessWidget {
+  const NavigationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = 0;
+    final PageController pageController = PageController(initialPage: 0);
+
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
@@ -65,8 +27,8 @@ class _NavigationPageState extends State<NavigationPage> {
                   selectedItemColor: Colors.white,
                   unselectedItemColor: Colors.black,
                   elevation: 10,
-                  currentIndex: _currentIndex,
-                  onTap: _onTabTapped,
+                  currentIndex: currentIndex,
+                  onTap: (index) => onTabTapped(context, index, pageController),
                   items: [
                     const BottomNavigationBarItem(
                       icon: Icon(Icons.home),
@@ -80,12 +42,11 @@ class _NavigationPageState extends State<NavigationPage> {
                       icon: Icon(Icons.favorite),
                       label: 'Selection',
                     ),
-                     BottomNavigationBarItem(
+                    BottomNavigationBarItem(
                       icon: IconButton(
-                          onPressed: () {
-                            _logout();
-                          },
-                          icon: const Icon(Icons.logout)),
+                        onPressed: () => logout(context),
+                        icon: const Icon(Icons.logout),
+                      ),
                       label: 'University',
                     ),
                   ],
@@ -94,14 +55,15 @@ class _NavigationPageState extends State<NavigationPage> {
             ),
           ),
           body: PageView(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
+            controller: pageController,
+            onPageChanged: (index) =>
+                onPageChanged(index, (value) => currentIndex = value),
             children: const [
               Splash(),
-              //HomePage(),
-              //OtpPage(),
-              //ContentPage(),
-              //UniversityPage(),
+              // HomePage(),
+              // OtpPage(),
+              // ContentPage(),
+              // UniversityPage(),
             ],
           ),
         ),
