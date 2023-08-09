@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:learnopus/View/profile/utils/profileimage_utils.dart';
 import 'package:learnopus/ViewModel/provider/imagemodel_provider.dart';
+import 'package:learnopus/ViewModel/uiutils/profilecollection.dart';
 import 'package:learnopus/view/navigationpage/screen/navigation_view.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class ProfileEnterScreen extends StatelessWidget {
                 Center(
                   child: Consumer<ImageProviderModel>(
                     builder: (context, imageProvider, child) {
-                      final selectedImagePath = imageProvider.selectedImagePath;
+                       selectedImagePath = imageProvider.selectedImagePath;
 
                       return GestureDetector(
                         onTap: () {
@@ -79,19 +80,19 @@ class ProfileEnterScreen extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 _buildTextField(
                   textController2,
-                  'Intended Course/Program',
+                  'Enter Mobile Number',
                   Icons.cabin,
                 ),
                 const SizedBox(height: 20.0),
                 _buildTextField(
                   textController3,
-                  'Preferred University/Institution',
+                  'Previous Education/Qualifications',
                   Icons.school,
                 ),
                 const SizedBox(height: 20.0),
                 _buildTextField(
                   textController4,
-                  'Previous Education/Qualifications',
+                  'Enter Your Place',
                   Icons.tab,
                 ),
                 const SizedBox(height: 30.0),
@@ -117,9 +118,17 @@ class ProfileEnterScreen extends StatelessWidget {
                           msg: 'Submitting...',
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
-                          backgroundColor: const Color.fromARGB(255, 124, 30, 39),
+                          backgroundColor:
+                              const Color.fromARGB(255, 124, 30, 39),
                         );
-                        // Perform submission logic here
+
+                        submitDetails(
+                            context,
+                            textController1,
+                            textController2,
+                            textController3,
+                            textController4,
+                            selectedImagePath); // Perform submission logic here ..Adding data to firestore.
 
                         Navigator.push(
                           context,
@@ -132,7 +141,8 @@ class ProfileEnterScreen extends StatelessWidget {
                           msg: 'Please fill all fields',
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
-                          backgroundColor: const Color.fromARGB(255, 124, 30, 39),
+                          backgroundColor:
+                              const Color.fromARGB(255, 124, 30, 39),
                         );
                       }
                     },
@@ -169,9 +179,9 @@ class ProfileEnterScreen extends StatelessWidget {
           prefixIcon: Icon(prefixIcon),
           labelStyle: const TextStyle(color: Colors.black26),
         ),
-        onChanged: (newValue) {
-          controller.text = newValue; // when changing values update controller
-        },
+        // onChanged: (newValue) {
+        //   controller.text = newValue; // when changing values update controller
+        // },
       ),
     );
   }
