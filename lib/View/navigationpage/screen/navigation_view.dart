@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learnopus/View/navigationpage/utils/navigation_utils.dart';
-import 'package:learnopus/View/splashscreen/screen/splash_view.dart';
+import '../../splashscreen/screen/splash_view.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({Key? key}) : super(key: key);
@@ -59,6 +59,7 @@ class NavigationPage extends StatelessWidget {
             onPageChanged: (index) =>
                 onPageChanged(index, (value) => currentIndex = value),
             children: const [
+              //ProfileEnterScreen(),
               Splash(),
               // HomePage(),
               // OtpPage(),

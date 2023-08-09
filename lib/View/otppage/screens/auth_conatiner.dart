@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:learnopus/ViewModel/uimodels/auth_viewmodel.dart';
 import 'package:learnopus/model/firebase/googlesignin_model.dart';
 import 'package:learnopus/View/otppage/utils/navigation_utils.dart';
 import 'package:learnopus/View/otppage/utils/signin_out_utils.dart';
-import 'package:learnopus/ViewModel/auth_viewmodel.dart';
+
 
 class AuthContainer extends StatelessWidget {
   final AuthContainerModel model;
@@ -128,28 +129,29 @@ class AuthContainer extends StatelessWidget {
                 ),
               ),
             ),
-            if (model.showGoogleSignIn) ...[
-              const SizedBox(height: 20), // Add spacing
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    signinWithGoogle(context: context);
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        'assets/google_logo.png', // Replace with your image asset
-                        height: 25,
-                        width: 25,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Sign in with Google'),
-                    ],
-                  ),
+            //if (model.showGoogleSignIn) ...[
+            const SizedBox(height: 20), // Add spacing
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  signinWithGoogle(context: context);
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/google_logo.png', // Replace with your image asset
+                      height: 25,
+                      width: 25,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text('Sign in with Google'),
+                  ],
                 ),
               ),
-            ],
+            ),
+            //],
+
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () {
@@ -176,7 +178,7 @@ class AuthContainer extends StatelessWidget {
                         ),
                         TextSpan(
                           text: model.currentPageIndex == 0
-                              ? "Sign Up"
+                              ? "Create Account"
                               : "Sign In",
                           style: const TextStyle(
                             color: Colors

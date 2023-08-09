@@ -9,7 +9,7 @@ class SignupHelper {
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((_) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) =>   OtpPage()),
+        MaterialPageRoute(builder: (context) => OtpPage()),
       );
     });
   }

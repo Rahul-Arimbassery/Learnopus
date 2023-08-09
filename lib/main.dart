@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:learnopus/View/splashscreen/screen/splashandnavigate.dart';
 import 'package:learnopus/ViewModel/provider/auth_status_provider.dart';
+import 'package:learnopus/ViewModel/provider/imagemodel_provider.dart';
 import 'package:learnopus/ViewModel/provider/otppagemodel_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -11,12 +12,10 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (context) => AuthProvider()), // Your existing model
-        ChangeNotifierProvider(create: (context) => OtpPageModel()), // Add this
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => OtpPageModel()),
+        ChangeNotifierProvider(create: (context) => ImageProviderModel()),
       ],
-      //ChangeNotifierProvider(
-      //create: (context) => AuthProvider(),
       child: const MyApp(),
     ),
     //),
