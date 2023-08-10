@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learnopus/View/profile/screens/profiledetails.dart';
 import 'package:learnopus/ViewModel/provider/auth_status_provider.dart';
+import 'package:learnopus/view/navigationpage/screen/navigation_view.dart';
 import 'package:learnopus/view/otppage/screens/otppage_view.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class LoginChecker {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>  ProfileEnterScreen(),
+           builder: (context) =>  NavigationPage(),  //ProfileEnterScreen
         ),
       );
     }

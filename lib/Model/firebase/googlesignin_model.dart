@@ -30,7 +30,7 @@ Future<void> signinWithGoogle({required BuildContext context}) async {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) =>  ProfileEnterScreen()),
+        MaterialPageRoute(builder: (context) =>  NavigationPage()), //ProfileEnterScreen
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {

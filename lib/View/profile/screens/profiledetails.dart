@@ -41,7 +41,7 @@ class ProfileEnterScreen extends StatelessWidget {
                 Center(
                   child: Consumer<ImageProviderModel>(
                     builder: (context, imageProvider, child) {
-                       selectedImagePath = imageProvider.selectedImagePath;
+                      selectedImagePath = imageProvider.selectedImagePath;
 
                       return GestureDetector(
                         onTap: () {
@@ -113,6 +113,7 @@ class ProfileEnterScreen extends StatelessWidget {
                         textController2,
                         textController3,
                         textController4,
+                        selectedImagePath,
                       )) {
                         Fluttertoast.showToast(
                           msg: 'Submitting...',
@@ -138,7 +139,8 @@ class ProfileEnterScreen extends StatelessWidget {
                         );
                       } else {
                         Fluttertoast.showToast(
-                          msg: 'Please fill all fields',
+                          msg:
+                              'Please fill all fields & Mobile Must be 10 digits & Image should be there',
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           backgroundColor:
@@ -191,10 +193,16 @@ class ProfileEnterScreen extends StatelessWidget {
     TextEditingController controller2,
     TextEditingController controller3,
     TextEditingController controller4,
+    selectedImagePath,
   ) {
+    final RegExp digitsRegex =
+        RegExp(r'^\d{10}$'); // Regular expression for 10 digits
+
     return controller1.text.isNotEmpty &&
         controller2.text.isNotEmpty &&
+        digitsRegex.hasMatch(controller2.text) && // Check for exactly 10 digits
         controller3.text.isNotEmpty &&
-        controller4.text.isNotEmpty;
+        controller4.text.isNotEmpty &&
+        selectedImagePath.isNotEmpty;
   }
 }
