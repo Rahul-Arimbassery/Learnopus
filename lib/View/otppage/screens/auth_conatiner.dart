@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:learnopus/ViewModel/uimodels/auth_viewmodel.dart';
-import 'package:learnopus/model/firebase/googlesignin_model.dart';
+
+
 import 'package:learnopus/View/otppage/utils/navigation_utils.dart';
 import 'package:learnopus/View/otppage/utils/signin_out_utils.dart';
+import 'package:learnopus/model/auth_viewmodel.dart';
+import 'package:learnopus/viewmodel/database/googlesignin.dart';
+
 
 
 class AuthContainer extends StatelessWidget {

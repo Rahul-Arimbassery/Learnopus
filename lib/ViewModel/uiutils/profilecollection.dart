@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:learnopus/Model/firestore/writedata_model.dart';
-import 'package:learnopus/ViewModel/uimodels/profiledetails_viewmodel.dart';
+import 'package:learnopus/model/profiledetails_viewmodel.dart';
+import 'package:learnopus/viewmodel/database/firestorewrite.dart';
 
 submitDetails(BuildContext context, textController1, textController2,
     textController3, textController4, selectedImagePath) {

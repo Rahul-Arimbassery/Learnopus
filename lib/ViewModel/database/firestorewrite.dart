@@ -1,21 +1,9 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:learnopus/ViewModel/uimodels/profiledetails_viewmodel.dart';
-
-// Future<void> uploadingData(UserProfile userProfile) async {
-//   await FirebaseFirestore.instance.collection("users").add({
-//     'username': userProfile.username,
-//     'mobileNumber': userProfile.mobileNumber,
-//     'qualification': userProfile.qualification,
-//     'place': userProfile.place,
-//     'imagePath': userProfile.imagePath,
-//   });
-// }
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:learnopus/View/errormessages/signin_out_error.dart';
-import 'package:learnopus/ViewModel/uimodels/profiledetails_viewmodel.dart';
+import 'package:learnopus/model/profiledetails_viewmodel.dart';
+
 
 Future<void> uploadingData(UserProfile userProfile) async {
   String imagePath = userProfile.imagePath;
@@ -40,9 +28,7 @@ Future<void> uploadingData(UserProfile userProfile) async {
       'imagePath': imageUrl, // Store the generated image URL
     });
     showToast('Image uploaded to Storage and user details stored in Firestore');
-    //print('Image uploaded to Storage and user details stored in Firestore');
   } catch (error) {
     showToast('Error uploading image and storing data: $error');
-    //print('Error uploading image and storing data: $error');
   }
 }

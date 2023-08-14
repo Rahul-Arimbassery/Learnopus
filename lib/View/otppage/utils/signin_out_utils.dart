@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:learnopus/model/firebase/signup_model.dart';
 import 'package:learnopus/View/errormessages/signin_out_error.dart';
 import 'package:learnopus/View/otppage/utils/validation_utils.dart';
-import '../../../model/firebase/signin_model.dart';
+import 'package:learnopus/viewmodel/database/emailsignin.dart';
+import 'package:learnopus/viewmodel/database/emailsignup.dart';
 
 class AuthLogic {
   static void handleAuthButtonPressed({

@@ -26,6 +26,16 @@ class SignupHelper {
 }
 
 
+
+
+
+
+
+
+
+
+
+
 // import 'package:flutter/material.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:learnopus/View/errormessages/signin_out_error.dart';

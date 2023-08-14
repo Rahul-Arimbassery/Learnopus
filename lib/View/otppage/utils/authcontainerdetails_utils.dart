@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learnopus/ViewModel/uimodels/auth_viewmodel.dart';
+import 'package:learnopus/model/auth_viewmodel.dart';
 
 import '../../../ViewModel/provider/otppagemodel_provider.dart';
 import '../screens/auth_conatiner.dart';
