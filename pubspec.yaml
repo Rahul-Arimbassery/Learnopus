@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^2.2.0
   http: ^1.1.0
   country_list_pick: ^1.0.1+6
+  
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,8 @@ flutter:
     - assets\profile.png
     - assets\university.png
     - assets\collegecourses.png
+    - assets\univ1.png
+    - assets\univlogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

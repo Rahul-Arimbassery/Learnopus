@@ -23,7 +23,7 @@ class LoginChecker {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-           builder: (context) =>  const NavigationPage(),  //ProfileEnterScreen
+           builder: (context) => const NavigationPage(),  //ProfileEnterScreen
         ),
       );
     }

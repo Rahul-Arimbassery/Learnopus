@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:learnopus/view/navigationpage/screen/navigation_view.dart';
 import 'package:learnopus/view/services/screens/university/country.dart';
 import 'package:learnopus/view/services/screens/university/universitydetails.dart';
 import 'package:learnopus/viewmodel/database/fetchapi.dart';
@@ -12,10 +13,20 @@ class UniversityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            leadingWidth: 120,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  const NavigationPage(),
+                    ));
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
             title: Text(
               'Universities in $pickedcountry',
               style: GoogleFonts.alkatra(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:learnopus/view/services/screens/university/universityfull.dart';
 
 class UniversityDetails extends StatelessWidget {
   const UniversityDetails({
@@ -148,7 +149,7 @@ class UniversityDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'find your perfect courses here',
+                        'explore university details here',
                         style: GoogleFonts.alata(
                           textStyle: const TextStyle(
                               fontSize: 14,
@@ -157,9 +158,20 @@ class UniversityDetails extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UniversityFull(
+                                  title: text1,
+                                  text2: text2,
+                                  text3: text3,
+                                  text4: text4,
+                                ),
+                              ));
+                        },
                         child: const SizedBox(
-                          child: Text("Courses"),
+                          child: Text("Explore"),
                         ),
                       ),
                     ],

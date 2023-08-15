@@ -39,6 +39,7 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           backgroundColor: const Color.fromARGB(255, 62, 128, 208),
@@ -98,3 +99,5 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 }
+
+
