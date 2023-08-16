@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:learnopus/model/rankingapi.dart';
 import 'package:learnopus/view/navigationpage/screen/navigation_view.dart';
+import 'package:learnopus/view/services/screens/ranking/rankingdetails.dart';
 import 'package:learnopus/view/services/screens/university/country.dart';
-import 'package:learnopus/view/services/screens/university/universitydetails.dart';
-import 'package:learnopus/viewmodel/database/fetchapi.dart';
+import 'package:learnopus/view/services/screens/university/universitypage.dart';
+import 'package:learnopus/viewmodel/database/fetchrankingapi.dart';
 
-String pickedcountry = 'India';
-
-class UniversityPage extends StatelessWidget {
-  const UniversityPage({super.key});
+class RankingHomePage extends StatelessWidget {
+  const RankingHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,13 @@ class UniversityPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  const NavigationPage(),
+                      builder: (context) => const NavigationPage(),
                     ));
               },
               icon: const Icon(Icons.arrow_back),
             ),
             title: Text(
-              'Universities in $pickedcountry',
+              'Ranking of universities',
               style: GoogleFonts.alkatra(
                 textStyle: const TextStyle(
                     fontSize: 20,
@@ -42,25 +42,26 @@ class UniversityPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CountryPickerPage(text:'university'),
+                          builder: (context) => const CountryPickerPage(text:'rank'),
                         ));
                   },
                   icon: const Icon(Icons.location_on_outlined)),
             ],
           ),
           backgroundColor: const Color.fromARGB(255, 234, 232, 232),
-          body: FutureBuilder(
-            future: fetchApi(pickedcountry),
+          body: FutureBuilder<List<Fields>>(
+            future: fetchRankingApi(pickedcountry),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
-                    return UniversityDetails(
+                    return RankingDetails(
                       path: 'assets/university.png',
-                      text1: snapshot.data![index].name!,
-                      text2: snapshot.data![index].country!,
-                      text3: snapshot.data![index].webPages![0],
-                      text4: snapshot.data?[index].stateProvince ?? 'State',
+                      text1: snapshot.data![index].universityName!,
+                      text2: snapshot.data![index].worldRank!,
+                      text3: snapshot.data![index].nationalRank!,
+                      text4: snapshot.data![index].country!,
+                      text5: snapshot.data![index].iso2Code.toString(),
                     );
                   },
                   itemCount: snapshot.data!.length,

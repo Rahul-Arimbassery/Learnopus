@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:country_list_pick/country_list_pick.dart';
+import 'package:learnopus/view/services/screens/ranking/rankinghomepage.dart';
 import 'package:learnopus/view/services/screens/university/universitypage.dart';
 
 class CountryPickerPage extends StatelessWidget {
+  final String text;
+  const CountryPickerPage({super.key, required this.text});
+
   @override
   Widget build(BuildContext context) {
     return CountryListPick(
@@ -37,11 +41,27 @@ class CountryPickerPage extends StatelessWidget {
       initialSelection: '+91', // or initialSelection: 'US'
       onChanged: (CountryCode? code) {
         pickedcountry = code!.name!;
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const UniversityPage(),
-            ));
+        //if (text == 'university') {
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => const UniversityPage(),
+        //     ));
+        //}
+        if (text == 'rank') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RankingHomePage(),
+              ));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const UniversityPage(),
+              ));
+        }
+
         // print(code!.name);
         // print(code.code);
         // print(code.dialCode);

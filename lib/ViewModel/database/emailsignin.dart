@@ -9,7 +9,7 @@ class SigninHelper {
     auth.signInWithEmailAndPassword(email: email, password: password).then((_) {
       Navigator.of(context)
           .pushReplacement(
-              MaterialPageRoute(builder: (context) =>  NavigationPage()))  ////NavigationPage
+              MaterialPageRoute(builder: (context) =>const NavigationPage()))  ////NavigationPage
           .catchError((error) {
         handleNavigationError(error);
       });

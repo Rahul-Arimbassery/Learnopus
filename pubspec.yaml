@@ -83,6 +83,7 @@ flutter:
     - assets\collegecourses.png
     - assets\univ1.png
     - assets\univlogo.png
+    - assets\iisc.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
