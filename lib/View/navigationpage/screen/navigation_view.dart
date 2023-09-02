@@ -42,7 +42,7 @@ class _NavigationPageState extends State<NavigationPage> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 62, 128, 208),
+          backgroundColor: const Color.fromARGB(255, 245, 246, 247),
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 62, 128, 208),
             bottom: PreferredSize(

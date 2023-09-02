@@ -211,8 +211,16 @@ class UniversityFull extends StatelessWidget {
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: () {},
-                                child: const Text("Book Admission")),
+                              onPressed: () {
+                                _showConfirmationDialog(
+                                  context,
+                                  title,
+                                  courses[index]['courseName']!,
+                                  courses[index]['coursePrice']!,
+                                );
+                              },
+                              child: const Text("Book Admission"),
+                            ),
                           ],
                         ),
                       ),
@@ -226,4 +234,111 @@ class UniversityFull extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showConfirmationDialog(BuildContext context, String collegeName,
+    String courseName, String coursePrice) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'Confirm Admission Booking',
+          style: GoogleFonts.alkatra(
+            textStyle: const TextStyle(
+                fontSize: 20,
+                color: Color.fromARGB(255, 115, 114, 114),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'College: $collegeName',
+              style: GoogleFonts.alkatra(
+                textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 170, 168, 168),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Course: $courseName',
+              style: GoogleFonts.alkatra(
+                textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 170, 168, 168),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Amount: $coursePrice',
+              style: GoogleFonts.alkatra(
+                textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 170, 168, 168),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Proceed for payment',
+              style: GoogleFonts.alkatra(
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 115, 114, 114),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              // Perform the submission logic here
+              // For now, let's just close the dialog
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Proceed',
+              style: GoogleFonts.alkatra(
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 41, 108, 201),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.alkatra(
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 41, 108, 201),
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

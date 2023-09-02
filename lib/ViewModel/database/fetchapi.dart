@@ -7,8 +7,6 @@ late List data;
 String? country;
 
 Future<List<ModelClass>> fetchApi(country) async {
-  // var url = Uri.parse(
-  //     'http://universities.hipolabs.com/search?country=United+States');
   var url =
       Uri.parse('http://universities.hipolabs.com/search?country=$country');
   var response = await http.get(url);
